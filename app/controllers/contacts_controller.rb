@@ -16,11 +16,13 @@ class ContactsController < ApplicationController
   # POST /contacts
   def create
     @contact = Contact.new(contact_params)
-
-    if @contact.save
-      render json: @contact, status: :created, location: @contact
+    if @contact.birthdate.class == Date
+      if @contact.save
+        render json: @contact, status: :created, location: @contact
+      end
     else
-      render json: @contact.errors, status: :unprocessable_entity
+      @contact.birthdate == @contact.birthdate.to_date
+      render json: @contacts, status: 201
     end
   end
 
